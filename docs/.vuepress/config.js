@@ -9,7 +9,7 @@ export default defineUserConfig({
 
   title: 'DevOps',
   description: 'DevOps Documentation',
-  base: "/kubernetes-docs/",
+  base: "/devops-docs/",
 
   locales: {
     '/': {
