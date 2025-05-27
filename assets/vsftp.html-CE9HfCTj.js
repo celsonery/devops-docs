@@ -1,0 +1,34 @@
+import{_ as s,c as a,o as e,a as n}from"./app-dOFYLOPn.js";const i={},l=n(`<h1 id="vsftpd" tabindex="-1"><a class="header-anchor" href="#vsftpd"><span>VsFTPD</span></a></h1><h4 id="install" tabindex="-1"><a class="header-anchor" href="#install"><span>Install</span></a></h4><p>apt-get install vsftp apache2-utils libpam-pwdfile</p><h4 id="configure" tabindex="-1"><a class="header-anchor" href="#configure"><span>Configure</span></a></h4><ul><li>vim /etc/vsftpd.conf</li></ul><div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text" data-title="text"><pre><code><span class="line">ftpd_banner=Bem-vindo ao FTP Oferta Maluca.</span>
+<span class="line">listen=YES</span>
+<span class="line">listen_ipv6=NO</span>
+<span class="line">anonymous_enable=NO</span>
+<span class="line">local_enable=YES</span>
+<span class="line">write_enable=YES</span>
+<span class="line">local_umask=022</span>
+<span class="line">nopriv_user=vsftpd</span>
+<span class="line">virtual_use_local_privs=YES</span>
+<span class="line">guest_enable=YES</span>
+<span class="line">user_sub_token=$USER</span>
+<span class="line">local_root=/var/ftp/home/$USER</span>
+<span class="line">chroot_local_user=YES</span>
+<span class="line">guest_username=vsftpd</span>
+<span class="line">hide_ids=YES</span>
+<span class="line">allow_writeable_chroot=YES</span>
+<span class="line">pam_service_name=vsftpd</span>
+<span class="line"></span>
+<span class="line">use_localtime=YES</span>
+<span class="line">pasv_enable=YES</span>
+<span class="line">pasv_min_port=30090</span>
+<span class="line">pasv_max_port=30100</span>
+<span class="line"></span>
+<span class="line">xferlog_enable=YES</span>
+<span class="line">xferlog_file=/var/log/vsftpd.log</span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul><li>vim /etc/pam.d/vsftpd</li></ul><div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text" data-title="text"><pre><code><span class="line">auth required pam_pwdfile.so pwdfile /etc/ftpd.passwd</span>
+<span class="line">account required pam_permit.so</span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div></div></div><ul><li>Adiciona usuário do vsftp no sistema</li></ul><div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre><code><span class="line"><span class="token function">useradd</span> <span class="token parameter variable">--home</span> /home/vsftpd <span class="token parameter variable">--gid</span> nogroup <span class="token parameter variable">-m</span> <span class="token parameter variable">--shell</span> /bin/false vsftpd</span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div></div></div><ul><li><p>Cria usuários virtuais</p></li><li><p>Adiciona usuario e cria arquivo</p></li></ul><div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre><code><span class="line">htpasswd <span class="token parameter variable">-c</span> <span class="token parameter variable">-p</span> <span class="token parameter variable">-b</span> /etc/ftpd.passwd celso@karyon.com.br <span class="token variable"><span class="token variable">$(</span>openssl <span class="token function">passwd</span> <span class="token parameter variable">-1</span> <span class="token parameter variable">-noverify</span> XXXXXXXX<span class="token variable">)</span></span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div></div></div><ul><li>Adiciona usuario em arquivo já existente</li></ul><div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre><code><span class="line">htpasswd <span class="token parameter variable">-p</span> <span class="token parameter variable">-b</span> /data/ftp/etc/ftpd.passwd sachinho@ofertamaluca.com.br <span class="token variable"><span class="token variable">$(</span>openssl <span class="token function">passwd</span> <span class="token parameter variable">-1</span> <span class="token parameter variable">-noverify</span> XXXXXXXX<span class="token variable">)</span></span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div></div></div><ul><li>Cria a pasta para os usuários virtuais</li></ul><div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre><code><span class="line"><span class="token function">mkdir</span> /var/ftp/usuario-virtual@dominio</span>
+<span class="line"><span class="token function">chown</span> vsftpd:nogroup /var/ftp/usuario-virtual@dominio</span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div></div></div><ul><li>Inicia e habilita o servidor vsftpd</li></ul><div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre><code><span class="line">systemctl <span class="token builtin class-name">enable</span> <span class="token parameter variable">--now</span> vsftpd</span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div></div></div>`,18),p=[l];function r(t,d){return e(),a("div",null,p)}const v=s(i,[["render",r],["__file","vsftp.html.vue"]]),o=JSON.parse('{"path":"/vsftp/vsftp.html","title":"VsFTPD","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":1748359938000,"contributors":[{"name":"Celso Nery","email":"celso.nery@gmail.com","commits":1}]},"filePathRelative":"vsftp/vsftp.md"}');export{v as comp,o as data};
