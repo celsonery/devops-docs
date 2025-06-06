@@ -1,0 +1,11 @@
+site_name: Apresentação Docker/Kubernetes
+theme: readthedocs
+nav:
+  - Virtualização "O Começo": 01-comeco.md
+  - Virtual Machine: 02-vms.md
+  - Containers: 03-containers.md
+  - Principais diferenças: 04-diferencas.md
+  - Docker: 05-docker.md
+  - Kubernetes: 06-kubernetes.md
+  - Minikube: 07-minikube.md
+  - Openshift: 08-openshift.md
