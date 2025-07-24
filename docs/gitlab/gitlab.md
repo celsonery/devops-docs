@@ -68,18 +68,6 @@ $ docker-compose up -d
 $ watch -n2 docker ps
 ```
 
-### Liberar espaço
-
-- Entrar em cada aplicação e remover imagens antigas - Docker
-
-- Script para remover imagens antigas e liberar espaço em disco
-```bash
-for i in `docker image ls | grep etotem/front | awk '{print $2}' | egrep -v '(dev|hml|latest|v1391|v1601|v1639)'`;do docker image rm "registry.bagarote.com.br/karyon/etotem/front:"$i;done
-```
-
-- Script 2 para remover imagens antigas e liberar espaço em disco
-
-- Liberar espaço nos registry - Gitlab
 Entrar no container gitlab
 ```bash
 $ docker exec -it 
@@ -152,4 +140,61 @@ https://docs.gitlab.com/omnibus/settings/smtp.html
 
 ### Ativação **Gitlab-runner**
 ```bash
+```
+
+
+### Liberar espaço
+
+- Entrar em cada aplicação e remover imagens antigas - Docker
+
+- Script para remover imagens antigas e liberar espaço em disco
+```bash
+for i in `docker image ls | grep etotem/front | awk '{print $2}' | egrep -v '(dev|hml|latest|v1391|v1601|v1639)'`;do docker image rm "registry.bagarote.com.br/karyon/etotem/front:"$i;done
+```
+
+- Script 2 para remover imagens antigas e liberar espaço em disco
+
+- Liberar espaço nos registry - Gitlab
+
+- Limpar artefatos, registros e cache
+
+```bash
+sudo gitlab-rake gitlab:cleanup:orphan_job_artifact_files
+sudo gitlab-rake gitlab:cleanup:project_uploads
+sudo gitlab-rake cache:clear
+```
+
+- Remover artefatos antigos de pipelines
+```bash
+sudo gitlab-rake gitlab:artifacts:cleanup
+```
+
+ou rodar sem simulacao
+```bash
+sudo gitlab-rake gitlab:artifacts:cleanup DRY_RUN=false
+```
+
+- Compactar ou rotacionar logs
+```bash
+sudo gitlab-ctl cleanse
+```
+
+- Limpar registros antigos de containers
+```bash
+docker exec -it gitlab gitlab-ctl registry-garbage-collect
+```
+
+- Verificar repositórios grandes
+```bash
+du -sh /var/opt/gitlab/git-data/repositories/*
+```
+
+- Limpar Docker (se estiver usando GitLab Runner com Docker)
+```bash
+docker system prune
+```
+
+- USE COM CUIDADO **este comando limpa tudo**
+```bash
+docker system prune -a
 ```
