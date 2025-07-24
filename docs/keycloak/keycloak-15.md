@@ -136,12 +136,45 @@ Após a criação do arquivo instalei para iniciar sempre junto com a máquina
 
 ## Teste funcionamento
 > Abra seu browser no endereço criado para o keycloak na porta :8443
-Ex: auth.bagarote.dev.br:8443
+Ex: auth.bagarote.com.br:8443
 
 
 ---
-ls /etc/letsencrypt/live/auth2.bagarote.dev.br
-openssl pkcs12 -export -out keycloak.p12 -inkey /etc/letsencrypt/live/auth.bagarote.dev.br/privkey.pem -in /etc/letsencrypt/live/auth.bagarote.dev.br/fullchain.pem -name keycloak-certificate
+ls /etc/letsencrypt/live/auth2.bagarote.com.br
+openssl pkcs12 -export -out keycloak.p12 -inkey /etc/letsencrypt/live/auth.bagarote.com.br/privkey.pem -in /etc/letsencrypt/live/auth.bagarote.com.br/fullchain.pem -name keycloak-certificate
 keytool -importkeystore -srckeystore keycloak.p12 -destkeystore keycloak.jks -srcstoretype  pkcs12 
 rm keycloak.p12
 keytool -list -v -keystore keycloak.jks
+
+
+## Atualizar certificado SSL KeyCloak
+
+Primeiro renomeio os arquivos antigos
+````bash
+mv keycloak.p12 keycloak.p12-old
+mv keycloak.jks keycloak.jks-old
+```
+
+Gere um novo certificado, baseado no certificado do letsencrypt renovado.
+```bash
+openssl pkcs12 -export -out keycloak.p12 -inkey /etc/letsencrypt/live/auth.bagarote.com.br/privkey.pem -in /etc/letsencrypt/live/auth.bagarote.com.br/fullchain.pem -name keycloak-certificate
+```
+
+Informe uma senha: XXXXXX e confirme.
+
+
+Agora gere a chave jks para o keycloak.
+```bash
+keytool -importkeystore -srckeystore keycloak.p12 -destkeystore keycloak.jks -srcstoretype  pkcs12
+```
+
+Repita a senha informada anteriormente: XXXXXX e confirme.
+
+> Após o procedimento concluído, agende um reboot ou reinicie manualmente o keycloak.
+```bash
+reboot
+
+ou 
+
+systemctl restart keycloak
+```
