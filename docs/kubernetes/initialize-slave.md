@@ -1,21 +1,22 @@
-# Ingressando nós escravos
+# Initialize workers nodes
 
-Execute o comando abaixo em cada nó que desejar ingressar no cluster
-> Utilize o token e a chave que recebeu ao iniciar o nó mestre.
+Perform below commands in the each node to ingress to cluster.
+
+> Use the token and the key, that you saved before in the initialize master node.
 
 ```
 kubeadm join 10.0.10.100:6443 --token 9e0xeu.s0if3... --discovery-token-ca-cert-hash sha256:3a328e56729515d...
 ```
 
-> Caso não lembre ou não tenha guardado, será preciso gerar um novo token.
+> In the case you don't saved, you will be need generate a new token.
 
-No Control-Plane execute o seguinte comando:
+In the Control-Plane(Master) perform the below command:
 
 ```sh
 # kubeadm token create --print-join-command
 ```
 
-> Verique no master os nós em execução
+> Verify if the nodes are running.
 
 ```
 kubectl get nodes
@@ -24,12 +25,12 @@ ou
 
 kubectl get nodes -o wide
 ```
-> OBS.: A opção **-o wide** acrecenta mais informações a saida
+> PBS.: The **-o wide** option shows more information in the output.
 
-> A Saída deve ser parecida com essa:
-![verificadndo nos do cluester](imgs/checando_nos_do_cluster.png)
+> The output be should:
+![verifing nodes](imgs/checando_nos_do_cluster.png)
 
 
-- Verificar Worker 3 fora do Pool - OK
-		kubectl --kubeconfig=/home/celso/.kube/config.bagarote describe node node3 | grep Taint 
-		kubectl --kubeconfig=/home/celso/.kube/config.bagarote taint node node3 node.kubernetes.io/disk-pressure:NoSchedule-
+## Verify Worker 3 without the Pool - OK
+		kubectl describe node node3 | grep Taint 
+		kubectl taint node node3 node.kubernetes.io/disk-pressure:NoSchedule-

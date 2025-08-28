@@ -1,6 +1,6 @@
-# Iniciando o nó mestre
+# Starting master
 
-- No Master execute **kubeadm init** para inicializar o cluster pela primeira vez.
+- In the Master node run **kubeadm init** to initialize the cluster for first time.
 ```
 # kubeadm init
 
@@ -31,7 +31,7 @@ $ sudo kubeadm init --config kubelet.yaml
 ```
 
 
-> A Saida será algo como:
+> The output be should:
 ```sh
 [init] Using Kubernetes version: v1.21.1
 [preflight] Running pre-flight checks
@@ -70,35 +70,35 @@ Then you can join any number of worker nodes by running the following on each as
 kubeadm join 10.0.2.100:6443 --token d1dyaj.31zxywbg93s1ywjy --discovery-token-ca-cert-hash sha256:71a91721595fde66b6382908d801266602a14de8e16bdb7a3cede21509427009
 
 ```
-> Anote o token e a chave para usar nos nós escravos.
+> Save the token and the key to use in the workers nodes.
 
-Para executar o kubernetes copie o arquivo **admin.conf**
+To perform the kubectl, copy the **admin.conf** file.
 ```
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-Rode o comando abaixo para verificar o status do cluster
+Run below command to verify cluster state.
 ```
 kubectl get pods --all-namespaces
 ```
-> A Saida deve estar assim:
-![All namespaces em pending](imgs/saida_all_namespaces01.png)
+> The output be should:
+![All namespaces pending](imgs/saida_all_namespaces01.png)
 
-Crie uma rede virtual ( namely, calico, canal, flannel, weave )
+Make a virtual network ( namely, calico, canal, flannel, weave )
 
-Exemplo Calico:
+Example Calico:
 ```sh
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/calico.yaml
 ```
 
-Exemplo rede flannel:
+Example flannel:
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/v0.20.2/Documentation/kube-flannel.yml
 ```
 
-Exemplo rede weave:
+Example weave:
 ```
 export kubever=$(kubectl version | base64 | tr -d '\n')
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
@@ -106,8 +106,8 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
 kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 ```
 
-> A saída deve ser igual a essa:
-![Resposta rede wave](imgs/saida_wave_01.png)
+> The output be should:
+![Response network wave](imgs/saida_wave_01.png)
 
-> Após esse procedimento os **coredns** devem estar "running"
+> After this procedure the **coredns** nodes should be "running"
 

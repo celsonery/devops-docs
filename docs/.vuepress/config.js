@@ -92,7 +92,9 @@ export default defineUserConfig({
             text: 'Kvm',
             collapsible: true,
             children: [
-              '/kvm/disk-resize-kvm'
+              '/kvm/disk-resize-kvm',
+              '/kvm/backup-kvm-qemu',
+              '/kvm/backup-com-virsh-snapshot'
             ],
           },
           {
@@ -116,6 +118,8 @@ export default defineUserConfig({
             children: [
               '/postgres/postgres',
               '/postgres/zabbix-postgres',
+              '/postgres/separar-instancias',
+              '/postgres/migrar-user-configs'
             ],
           },
           {
@@ -192,7 +196,9 @@ export default defineUserConfig({
             text: 'Kvm',
             collapsible: true,
             children: [
-              '/br/kvm/disk-resize-kvm'
+              '/br/kvm/disk-resize-kvm',
+              '/br/kvm/backup-kvm-qemu',
+              '/br/kvm/backup-com-virsh-snapshot',
             ],
           },
           {
@@ -216,6 +222,8 @@ export default defineUserConfig({
             children: [
               '/br/postgres/postgres',
               '/br/postgres/zabbix-postgres',
+              '/br/postgres/separar-instancias',
+              '/br/postgres/migrar-user-configs',
             ],
           },
           {

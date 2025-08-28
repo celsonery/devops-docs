@@ -1,6 +1,6 @@
-# Utilizando arquivos .yaml
+# Using .yaml files
 
-O minimo que o arquivo precisa
+The essentials you need.
 ```yaml
 apiVersion
 kind
@@ -8,53 +8,54 @@ metadata
 spec
 ```
 
-- apiVersion: Versão da api que será utilizada na criação do objeto.
-- kind: Tipo de objeto que será criado.
-- metadata: Metadados referente ao objeto.
-- spec: O que terá no objeto, "No caso containers".
+- apiVersion: Api version will be used to create objects.
+- kind: The type of object will be created.
+- metadata: Metadata related to the object.
+- spec: Object specification, "In this case of container".
 
 
-Como saber a apiVersion:
+How to know the apiVersion:
 ```
 $ kubectl api-resources
 ```
+
 - Inserir imagem do resultado do comando acima
 
-Arquivo para criação de um **Pod** final
-> OBS: A identação é muito importante, utilize sempre 2 espaços para a tabulação.
+File to create a **Pod**
+> PBS: Indentation is very important, always use 2 spaces for tabs.
 
 ## Pod
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
-	- name: meupod
+	- name: mypod
 		labels: 
-			app: meupod-label
+			app: mypod-label
 spec:
 	containers:
 		- name: myapp-api
 			image: oregontecnologia/myapp-api:1.0.2
 ```
 
-Criando o objeto com **create** ou **apply**
-> O comando **create** somente cria o objeto se o objeto já estiver sido criado apresenta erro.
-> O comando **apply** cria ou atualiza o objeto se caso houver alguma mudança e o objeto já estiver sido criado anteriormente.
+Creating objeto with **create** or **apply**
+> The **create** command only create an object. If it already exists, you will get an error.
+> The **apply** command create or update an object.
 ```
 $ kubectl apply -f arquivo.yaml
 ```
 
-Verficando se está sendo executado a criação
+Checking if it's running.
 ```
 $ kubectl get pods
 ```
-> A flag **-o wide** mostra mais detalhes sobre o pod em execução.
+> The **-o wide** option shows more information about running a pod.
 
-Saber toda a informação do pod ou do deploy
+This command below shows all information about the pod or deploy.
 ```
 $ kubectl describe pod myapp-api
 ```
-ou
+or
 ```
 $ kubectl describe deploy ou deployments
 ```
@@ -64,16 +65,16 @@ $ kubectl describe deploy ou deployments
 apiVersion: apps/v1
 kind: Replicaset
 metadata:
-	- name: meureplicaset
+	- name: myreplicaset
 spec:
 	replicas: 5
 	selector:
 		matchLabels:
-			app: meupod-label
+			app: mypod-label
 		template:
 			metadata:
 				labels: 
-					app: meupod-label
+					app: mypod-label
 			spec:
 				containers:
 					- name: myapp-api
@@ -81,7 +82,7 @@ spec:
 	
 ```
 
-Verficando se está sendo executado a criação
+Checking if it's running.
 ```
 $ kubectl get replicaset
 ```
@@ -91,16 +92,16 @@ $ kubectl get replicaset
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-	- name: meudeploy
+	- name: mydeploy
 spec:
 	replicas: 5
 	selector:
 		matchLabels:
-			app: meupod-label
+			app: mypod-label
 		template:
 			metadata:
 				labels: 
-					app: meupod-label
+					app: mypod-label
 			spec:
 				containers:
 					- name: myapp-api
@@ -108,7 +109,7 @@ spec:
 	
 ```
 
-Verficando se está sendo executado a criação
+Checking if it's running.
 ```
 $ kubectl get deploy
 ```
@@ -118,16 +119,16 @@ $ kubectl get deploy
 apiVersion: v1
 kind: Service
 metadata:
-	- name: meudservice
+	- name: myservice
 spec:
 	selector:
-		app: meupod-label
+		app: mypod-label
 	ports:
 		- port: 80
 	type: LoadBalancer <- ClusterIP | NodePort | LoadBalancer
 ```
 
-Verficando se está sendo executado a criação
+Checking if it's running.
 ```
 $ kubectl get services
 ```
