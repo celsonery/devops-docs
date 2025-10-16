@@ -1,81 +1,77 @@
 # K3s
 
-## Instalar o k3s (como servidor único - master)
+## Install the k3s (like as unique master server)
 
-Execute este comando para instalar o k3s com suporte a containerd (runtime padrão):
+Run this command to install k3s with containerd default runtime support:
 
 ```bash
 curl -sfL https://get.k3s.io | sh -
 ```
 
-Este comando instala:
+This command will install:
 
-- k3s (servidor)
+- k3s (server)
 - kubelet
 - containerd
-- flannel (rede)
-- coredns, servicelb, traefik, etc. (se não desabilitados)
+- flannel (network)
+- coredns, servicelb, traefik, etc. (if not disabled)
 
-> Se quiser instalar sem o traefik ou servicelb, pode usar:
+> If you want to install without the traefik or servicelb, you can use:
 
 ```bash
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable traefik --disable servicelb" sh -
 ```
 
-## Verificar se k3s está rodando
+## Check if k3s is running
 ```bash
 sudo systemctl status k3s
 ```
-Verifique se aparece como active (running).
+Check if you can see active (running).
 
 
-## Acessar o Kubernetes com kubectl
+## Connect the Kubernetes with kubectl
 ```bash
 sudo kubectl get nodes
 ```
-Você verá o nó como Ready.
+You will see node in Ready.
 
-
-Para usar kubectl sem sudo:
+Or to use without sudo command:
 ```bash
 mkdir -p $HOME/.kube
 sudo cp /etc/rancher/k3s/k3s.yaml $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
+## Convert containers Podman to Kubernetes
 
-## Converter containers Podman para Kubernetes
+If you already have containers running with Podman, you can:
 
-Se você já tem containers rodando com Podman, você pode:
+➤ Migrate with manual form:
 
-➤ Migrar de forma manual:
+Identify what eath container work.
+Recriate with Deployment + Service YAMLs in the Kubernetes.
+Or, use kompose if you already have a docker-compose.yaml.
 
-Identifique o que cada container faz.
+Example docker-compose.yml converted:
 
-Recrie como Deployment + Service YAMLs no Kubernetes.
-
-Ou, use kompose se tem um docker-compose.yml.
-
-Exemplo docker-compose.yml convertido:
-
-Instale o kompose:
+Install the kompose:
 ```bash
 curl -L https://github.com/kubernetes/kompose/releases/download/v1.31.0/kompose-linux-amd64 -o kompose
 chmod +x kompose
 sudo mv kompose /usr/local/bin/
 ```
 
-Converta:
+Convert:
 ```bash
 kompose convert -f docker-compose.yml
 kubectl apply -f .
 ```
 
-## Expor serviços (Ingress opcional)
+## Export services (Ingress optional)
 
-k3s já vem com o Traefik Ingress Controller (a menos que tenha desabilitado). Você pode criar regras Ingress para expor serviços na porta 80/443.
+k3s already have the Traefik Ingress Controller (if you don't disable that). You can create rules Ingress to export services at 80/443 ports.
 
-Exemplo de um Ingress:
+Example of a Ingress:
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -97,6 +93,6 @@ spec:
               number: 80
 ```
 
-## (Opcional) Habilitar acesso remoto via Kubeconfig
+## (Optional) Enable remote access by Kubeconfig
 
-Copie o /etc/rancher/k3s/k3s.yaml para sua máquina local, edite o IP 127.0.0.1 para o IP público do servidor, e use com kubectl.
+Copy the file /etc/rancher/k3s/k3s.yaml to your local machine, edit the IP from 127.0.0.1 to public IP of server, and use the kubectl command.
