@@ -181,7 +181,7 @@ sudo gitlab-ctl cleanse
 
 - Limpar registros antigos de containers
 ```bash
-docker exec -it gitlab gitlab-ctl registry-garbage-collect
+docker exec -it gitlab gitlab-ctl registry-garbage-collect -m
 ```
 
 - Verificar repositórios grandes
@@ -194,7 +194,7 @@ du -sh /var/opt/gitlab/git-data/repositories/*
 docker system prune
 ```
 
-- USE COM CUIDADO **este comando limpa tudo**
+- USE COM CUIDADO **este comando limpa tudo, será preciso recriar as imagens posteriormente** 
 ```bash
 docker system prune -a
 ```

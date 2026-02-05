@@ -144,6 +144,14 @@ export default defineUserConfig({
               '/others/install-minikube',
               '/others/install-openshift'
             ],
+          },
+                    {
+            text: 'Aws',
+            collapsible: true,
+            children: [
+              '/aws/aws-cli-install',
+              '/aws/rds_access_devs'
+            ],
           }
           ],
         },
@@ -247,6 +255,14 @@ export default defineUserConfig({
               '/br/others/k3s',
               '/br/others/install-minikube',
               '/br/others/install-openshift'
+            ],
+          },
+          {
+            text: 'Aws',
+            collapsible: true,
+            children: [
+              '/br/aws/aws-cli-install',
+              '/br/aws/rds_access_devs'
             ],
           }
           ],

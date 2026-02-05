@@ -22,3 +22,15 @@ https://grafana.com/
 
 9679  - Deployment
 10000 - Server monitor
+
+#### Reset de senha do admin
+```
+grafana-cli admin reset-admin-password --password-from-stdin
+```
+
+- Adicionar Prometheus
+```
+http://prometheus-service:8080
+
+http://metrics.bagarote.com.br
+```

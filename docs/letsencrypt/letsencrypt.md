@@ -28,10 +28,10 @@ certbot certonly -v --manual --preferred-challenges dns --server https://acme-v0
 certbot certonly --manual --preferred-challenges dns --server https://acme-v02.api.letsencrypt.org/directory -d '*.bagarote.dev.br' -d bagarote.dev.br --force-renewal --manual-public-ip-logging-ok
 ```
 
-> Para verificar a propagação do domínio pode ser utilizado ferramentas como **https://toolbox.googleapps.com/apps/dig/#TXT/_acme-challenge.oregon.net.br** ou sites como **dnscheckr.org**.
+> Para verificar a propagação do domínio pode ser utilizado ferramentas como **https://toolbox.googleapps.com/apps/dig/#TXT/_acme-challenge.bagarote.dev.br** ou sites como **dnschecker.org**.
 
 > Pode ser virifcado também no terminal, utilizando o comando
 
 ```bash
-dig TXT _acme-challenge.crismey.co.br
+dig TXT _acme-challenge.bagarote.dev.br
 ```
